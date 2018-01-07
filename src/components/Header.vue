@@ -2,10 +2,8 @@
 	<!-- Header -->
 	<div class="col-12 header">
 	  <div class="col-2 left" >
-	    <button v-on:click="dropdown">
-	      <img src='../assets/list.jpg' alt = 'Button'>
-	    </button>
-	    <ul class="hide" id="menu">
+	    <img id="dropdownButton" src='../assets/list.jpg' alt = 'Button' v-on:click="dropdown" >
+	    <ul v-if="scrollSeen" id="menu">
 	      <li>Fashion</li>
 	      <li>Politics</li>
 	      <li>Science</li>
@@ -16,7 +14,7 @@
 	    </ul>
 	  </div>
 
-	  <div class="col-8 mid">
+	  <div class="col-7 mid">
 	    <div class="col-12 euda">
 	    	<div></div>
 	      <div>E</div>
@@ -32,8 +30,9 @@
 	    	<div></div>
 	    </div>
 	  </div>
-	  <div class="col-2 right">
-	    <button id="mnuLogout">Log out</button>
+	  <div class="col-2 right"><router-link to="/new-journal">Post new blog!</router-link></div>
+	  <div class="col-1 right">
+	    <button v-on:click="logout">Log out</button>
 	  </div>
 	</div>
 </template>
@@ -49,16 +48,22 @@ export default {
   name: 'Header',
   data () {
     return {
-      msg: ''
+      msg: '',
+      scrollSeen: false
     }
   },
   methods: {
     dropdown: function() {
-      if(menu.classList.contains('hide')) {
-				menu.classList.remove('hide');
-			} else {
-				menu.classList.add('hide');
-			}
+      let scroll = this.scrollSeen;
+      if(scroll)
+      	this.scrollSeen = false;
+      else
+      	this.scrollSeen = true;
+    },
+    logout: function() {
+      firebase.auth().signOut().then(() => {
+        this.$router.replace('login')
+      })
     }
   }
 }
@@ -132,5 +137,18 @@ body {
 .email {
 	font-style: italic;
 	text-decoration: underline;
+}
+button {
+  padding: 10px 20px;
+  background: #42b983;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 22px;
+  outline: 0;
+  cursor: pointer;
+}
+#dropdownButton {
+	cursor: pointer;
 }
 </style>

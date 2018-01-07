@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import HelloWorld from '@/components/Home'
+import Home from '@/components/Home'
 import Login from '@/components/Login'
 import SignUp from '@/components/SignUp'
+import UpdateProfile from '@/components/UpdateProfile'
+import NewJournal from '@/components/NewJournal'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -12,7 +14,7 @@ let router = new Router({
   routes: [
     {
       path: '*',
-      redirect: '/login'
+      redirect: '/home'
     },
     {
       path: '/',
@@ -27,6 +29,22 @@ let router = new Router({
       path: '/sign-up',
       name: 'SignUp',
       component: SignUp
+    },
+    {
+      path: '/update-profile',
+      name: 'UpdateProfile',
+      component: UpdateProfile,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/new-journal',
+      name: 'NewJournal',
+      component: NewJournal,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/home',
@@ -46,7 +64,7 @@ router.beforeEach((to, from, next) => {
   if (requiresAuth && !currentUser)
     next('login')
   else if 
-    (!requiresAuth && currentUser) next('hello')
+    (!requiresAuth && currentUser) next('home')
   else 
     next()
 });

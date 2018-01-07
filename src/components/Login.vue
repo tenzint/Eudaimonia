@@ -48,7 +48,7 @@ export default {
       })
       .then(
         function(user) {
-          self.$router.replace('hello')
+          self.$router.replace('home')
       });
     }
   }
